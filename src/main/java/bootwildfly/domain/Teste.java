@@ -73,6 +73,15 @@ public class Teste {
   private String codigo;
   private String entrada;
   private String saida;
+
+    public Teste(String nome, String descricao, String dica, String codigo, String entrada, String saida) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.dica = dica;
+        this.codigo = codigo;
+        this.entrada = entrada;
+        this.saida = saida;
+    }
   private TipoDeTeste tipo;
 
  

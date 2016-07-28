@@ -7,8 +7,11 @@ package bootwildfly.service;
 
 import bootwildfly.domain.Problema;
 import bootwildfly.domain.SumarioDeProblema;
+import bootwildfly.domain.Teste;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -18,14 +21,44 @@ import java.util.function.Predicate;
  *
  * @author benoni
  */
-public class ProblemaRepository implements Repository<Problema>{
-  
+public class MockListaProblema implements Repository<Problema>{
     //usado para testes
-    private List<Problema> problemasMock = new ArrayList<>(10);
+    private final static int TAMANHO=10;
+    private final List<Problema> problemasMock = new ArrayList<>();
+
+    public MockListaProblema() {
+        gerarProblemas();
+    }
+
+    public List<Problema> getProblemasMock() {
+        return problemasMock;
+    }
     
+    private void gerarProblemas(){
+        for(int i=0;i<TAMANHO; i++){
+            SumarioDeProblema s = 
+                    new SumarioDeProblema("21/07/17", false, "nome"+i, "codigo"+i, "descricao"+i);
+            Teste t = new Teste("nome"+i, "dscricao"+i, "dica"+i, "codigo"+i, ""+i, ""+i);
+            List<Teste> lt = new ArrayList<>();
+            lt.add(t);
+            Problema p = new Problema(s);
+            p.setTeste(lt);
+            p.setId(i);
+            problemasMock.add(p);
+        }
+                
+    }    
+
     @Override
     public Optional<Problema> get(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Optional<Problema> op = Optional.empty();
+        for(Problema p:problemasMock){
+            
+            if(p.getSumario().getCodigo().equals(id)){
+                op = Optional.ofNullable(p);
+            }
+        }
+        return op;
     }
 
     @Override
@@ -35,12 +68,8 @@ public class ProblemaRepository implements Repository<Problema>{
 
     @Override
     public Set<Problema> get() {
-        Problema p1,p2;
-        List<Problema> lista = new ArrayList<>();
-        SumarioDeProblema s = new SumarioDeProblema("", true, "", "", "");
-        p1 = new Problema(s);
-        p2 = new Problema(s);
-        return (Set<Problema>) lista;
+        Set<Problema> retVal = new HashSet<>(problemasMock);
+        return retVal;
     }
 
     @Override
@@ -82,5 +111,5 @@ public class ProblemaRepository implements Repository<Problema>{
     public void remove(Predicate<Problema> predicate) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+     
 }

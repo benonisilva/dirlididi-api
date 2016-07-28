@@ -58,13 +58,13 @@ public class Application extends SpringBootServletInitializer {
     
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Spring REST Sample with Swagger")
-                .description("Spring REST Sample with Swagger")
-                .termsOfServiceUrl("http://www-03.ibm.com/software/sla/sladb.nsf/sla/bm?Open")
-                .contact("Niklas Heidloff")
+                .title("Rest api Dirdlididi")
+                .description("")
+                .termsOfServiceUrl("dirlididibldr-benonisilva.rhcloud.com")
+                .contact("Benoni Silva")
                 .license("Apache License Version 2.0")
-                .licenseUrl("https://github.com/IBM-Bluemix/news-aggregator/blob/master/LICENSE")
-                .version("2.0")
+                .licenseUrl("https://github.com/benonisilva/dirlididi-api")
+                .version("0.1")
                 .build();
     }
 }
