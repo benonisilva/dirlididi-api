@@ -20,9 +20,7 @@ import java.util.function.Predicate;
  */
 public class ProblemaRepository implements Repository<Problema>{
   
-    //usado para testes
-    private List<Problema> problemasMock = new ArrayList<>(10);
-    
+  
     @Override
     public Optional<Problema> get(String id) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

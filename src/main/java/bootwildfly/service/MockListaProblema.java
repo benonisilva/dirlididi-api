@@ -5,10 +5,10 @@
  */
 package bootwildfly.service;
 
+
 import bootwildfly.domain.Problema;
 import bootwildfly.domain.SumarioDeProblema;
 import bootwildfly.domain.Teste;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -17,10 +17,14 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.springframework.stereotype.Component;
+
+
 /**
  *
  * @author benoni
  */
+@Component("repositoryProblema")
 public class MockListaProblema implements Repository<Problema>{
     //usado para testes
     private final static int TAMANHO=10;

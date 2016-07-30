@@ -16,9 +16,7 @@ public class Resposta {
     private  String entrada;
     private  String saida;
 
-    public Resposta(String entrada, String saida) {
-        this.entrada = entrada;
-        this.saida = saida;
+    public Resposta() {
     }
     
     @JsonProperty(required = true)
@@ -26,11 +24,18 @@ public class Resposta {
     public String getEntrada() {
         return entrada;
     }
+
+    public void setEntrada(String entrada) {
+        this.entrada = entrada;
+    }
+
+    public void setSaida(String saida) {
+        this.saida = saida;
+    }
     
     @JsonProperty(required = true)
     @ApiModelProperty(notes = "Saida de teste", required = true)
     public String getSaida() {
         return saida;
     }
-    
 }

@@ -19,9 +19,8 @@ public class SolucaoDeProblema {
     private  String estrategia;
     private  List<Resposta> respostas;
     
-    public SolucaoDeProblema(String estrategia, List<Resposta> respostas) {
-        this.estrategia = estrategia;
-        this.respostas = respostas;
+    public SolucaoDeProblema() {
+        
     }
 
     @JsonProperty(required = true)
@@ -31,10 +30,8 @@ public class SolucaoDeProblema {
     }
     
     @JsonProperty(required = true)
-    @ApiModelProperty(notes = "Descricao de estrategia", required = true)
+    @ApiModelProperty(notes = "Respostas(entrada, saida esperada) dos testes", required = true)
     public List<Resposta> getResposta() {
         return respostas;
     }
-
-    
 }

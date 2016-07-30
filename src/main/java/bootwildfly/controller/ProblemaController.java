@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProblemaController {
-
-    private final Repository<Problema> repository  = new MockListaProblema();
-    private final int OFFSET=5;
+    
+    @Autowired
+    private Repository<Problema> repositoryProblema;
+    
+    private static final int OFFSET=5;
     
     @ExceptionHandler(IllegalArgumentException.class)
     void handleBadRequests(HttpServletResponse response) throws IOException {
@@ -49,15 +52,16 @@ public class ProblemaController {
     public @ResponseBody List<SumarioDeProblema> getProblemas(@RequestParam(value="pagina", defaultValue = "1" ) Integer pagina){
         
         List<SumarioDeProblema> listaSumarioProblemas = new ArrayList<>();
+        
         int inicio,fim;
         inicio=(pagina-1)*OFFSET;
         fim=inicio+OFFSET;
-        int total=repository.get().size();
+        int total=repositoryProblema.get().size();
         
         if(fim>total) throw new IllegalArgumentException("fora "+inicio+"  "+fim+" "+total );
         
         List<Problema> l = new ArrayList<>();
-        l.addAll(repository.get());
+        l.addAll(repositoryProblema.get());
         l.subList(inicio,fim).forEach((Problema p)->{
             listaSumarioProblemas.add(p.getSumario());
         });
@@ -67,9 +71,9 @@ public class ProblemaController {
     
     
     @ApiOperation(value = "Get Problema", nickname = "Get Problema")
-    @RequestMapping(value = "/problema/{codigo}", method = RequestMethod.GET)
+    @RequestMapping(value = "/problema/{codigoProblema}", method = RequestMethod.GET)
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "codigo", value = "{codigo}", required = true, dataType = "string", paramType = "pathVariable", defaultValue="")
+        @ApiImplicitParam(name = "codigoProblema", value = "{codigoProblema}", required = true, dataType = "string", paramType = "pathVariable", defaultValue="")
       })
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = Problema.class ),
@@ -77,16 +81,18 @@ public class ProblemaController {
         @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Failure")})
-    public @ResponseBody Problema getProblema(@PathVariable(value="codigo") String codigo){
+    public @ResponseBody Problema getProblema(@PathVariable(value="codigoProblema") String codigo){
         
-        Problema problema = repository.get(codigo).get();
+        Problema problema = repositoryProblema.get(codigo).get();
         return problema;
     }
     
+    //NOTAS: Ter um recurso {teste} parece ser irrelevante dado que nas telas editamos {problemas}
+    //       e nao ha nenhuma indicacao de que podemos editar um {teste} ou uma tela de submissão.
     @ApiOperation(value = "Edit Problema", nickname = "Edit Problema")
-    @RequestMapping(value = "/problema/{codProblema}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/problema/{codigoProblema}", method = RequestMethod.PUT)
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "codProblema", value = "Codigo do problema", required = true, dataType = "string", paramType = "query", defaultValue = "")
+        @ApiImplicitParam(name = "codigoProblema", value = "{codigoProblema}", required = true, dataType = "string", paramType = "query", defaultValue = "")
     })
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success"),
@@ -98,7 +104,24 @@ public class ProblemaController {
     String editProblema(@PathVariable String codProblema, @RequestBody Problema problema) {
         return "OK";
     }
-    @ApiOperation(value = "Edit Problema", nickname = "Edit Problema")
+    
+    @ApiOperation(value = "Delete Problema", nickname = "Delete Problema")
+    @RequestMapping(value = "/problema/{codigoProblema}", method = RequestMethod.DELETE)
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "codigoProblema", value = "{codigoProblema}", required = true, dataType = "string", paramType = "pathVariable", defaultValue = "")
+    })
+    @ApiResponses(value = {
+        @ApiResponse(code = 200, message = "Success"),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden"),
+        @ApiResponse(code = 404, message = "Not Found"),
+        @ApiResponse(code = 500, message = "Failure")})
+    public @ResponseBody
+    String deleteProblema(@PathVariable String codProblema, @RequestBody Problema problema) {
+        return "OK";
+    }
+    
+    @ApiOperation(value = "Add Problema", nickname = "Add Problema")
     @RequestMapping(value = "/problema", method = RequestMethod.POST)
        @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success"),
@@ -111,10 +134,13 @@ public class ProblemaController {
         return "OK";
     }
     
+    
+    
+    
     @ApiOperation(value = "Enviar Solucao", nickname = "Enviar Solucao")
-    @RequestMapping(value = "/problema/{codProblema}", method = RequestMethod.POST)
+    @RequestMapping(value = "/problema/{codigoProblema}/solucao", method = RequestMethod.POST)
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "codProblema", value = "Problema com codigo={codProblema}", required = true, dataType = "string", paramType = "query", defaultValue = "")
+        @ApiImplicitParam(name = "codigoProblema", value = "{codigoProblema}", required = true, dataType = "string", paramType = "query", defaultValue = "")
     })
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success"),
@@ -123,7 +149,7 @@ public class ProblemaController {
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Failure")})
     public @ResponseBody
-    boolean checaSolucao(@PathVariable String codProblema, @RequestBody SolucaoDeProblema solucao) {
+    boolean checaSolucao(@PathVariable String codigoProblema, @RequestBody SolucaoDeProblema solucao) {
         return true;
     }
 }
