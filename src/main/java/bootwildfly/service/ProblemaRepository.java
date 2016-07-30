@@ -35,9 +35,9 @@ public class ProblemaRepository implements Repository<Problema>{
     public Set<Problema> get() {
         Problema p1,p2;
         List<Problema> lista = new ArrayList<>();
-        SumarioDeProblema s = new SumarioDeProblema("", true, "", "", "");
-        p1 = new Problema(s);
-        p2 = new Problema(s);
+        //SumarioDeProblema s = new SumarioDeProblema("", true, "", "", "");
+        //p1 = new Problema(s);
+        //p2 = new Problema(s);
         return (Set<Problema>) lista;
     }
 

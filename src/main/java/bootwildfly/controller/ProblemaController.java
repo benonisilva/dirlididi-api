@@ -46,7 +46,6 @@ public class ProblemaController {
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success", response = SumarioDeProblema.class , responseContainer="List"),
         @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Failure")})
     public @ResponseBody List<SumarioDeProblema> getProblemas(@RequestParam(value="pagina", defaultValue = "1" ) Integer pagina){
@@ -73,12 +72,11 @@ public class ProblemaController {
     @ApiOperation(value = "Get Problema", nickname = "Get Problema")
     @RequestMapping(value = "/problema/{codigoProblema}", method = RequestMethod.GET)
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "codigoProblema", value = "{codigoProblema}", required = true, dataType = "string", paramType = "pathVariable", defaultValue="")
+        @ApiImplicitParam(name = "codigoProblema", value = "{codigoProblema}", required = true, dataType = "string", paramType = "path", defaultValue="")
       })
     @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Success", response = Problema.class ),
+        @ApiResponse(code = 200, message = "Success", response = Problema.class  ),
         @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Failure")})
     public @ResponseBody Problema getProblema(@PathVariable(value="codigoProblema") String codigo){
@@ -89,44 +87,42 @@ public class ProblemaController {
     
     //NOTAS: Ter um recurso {teste} parece ser irrelevante dado que nas telas editamos {problemas}
     //       e nao ha nenhuma indicacao de que podemos editar um {teste} ou uma tela de submissão.
-    @ApiOperation(value = "Edit Problema", nickname = "Edit Problema")
+    @ApiOperation(value = "Edit Problema", nickname = "edit")
     @RequestMapping(value = "/problema/{codigoProblema}", method = RequestMethod.PUT)
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "codigoProblema", value = "{codigoProblema}", required = true, dataType = "string", paramType = "query", defaultValue = "")
+        @ApiImplicitParam(name = "codigoProblema", value = "Codigo do Problema", required = true, dataType = "string", paramType = "path", defaultValue = "")
     })
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Failure")})
     public @ResponseBody
-    String editProblema(@PathVariable String codProblema, @RequestBody Problema problema) {
+    String editProblema(@PathVariable String codigoProblema, @RequestBody Problema problema) {
         return "OK";
     }
     
-    @ApiOperation(value = "Delete Problema", nickname = "Delete Problema")
+    @ApiOperation(value = "Delete Problema", nickname = "deletar")
     @RequestMapping(value = "/problema/{codigoProblema}", method = RequestMethod.DELETE)
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "codigoProblema", value = "{codigoProblema}", required = true, dataType = "string", paramType = "pathVariable", defaultValue = "")
+        @ApiImplicitParam(name = "codigoProblema", value = "Codigo do problema", required = true, dataType = "string", paramType = "path", defaultValue = "")
     })
+    
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Failure")})
     public @ResponseBody
-    String deleteProblema(@PathVariable String codProblema, @RequestBody Problema problema) {
+    String deleteProblema(@PathVariable String codigoProblema, @RequestBody Problema problema) {
         return "OK";
     }
     
-    @ApiOperation(value = "Add Problema", nickname = "Add Problema")
+    @ApiOperation(value = "Adiciona problema.", nickname = "insert")
     @RequestMapping(value = "/problema", method = RequestMethod.POST)
        @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Failure")})
     public @ResponseBody
@@ -134,18 +130,14 @@ public class ProblemaController {
         return "OK";
     }
     
-    
-    
-    
-    @ApiOperation(value = "Enviar Solucao", nickname = "Enviar Solucao")
+    @ApiOperation(value = "Adiciona uma solucao ao problema", nickname = "solucionar")
     @RequestMapping(value = "/problema/{codigoProblema}/solucao", method = RequestMethod.POST)
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "codigoProblema", value = "{codigoProblema}", required = true, dataType = "string", paramType = "query", defaultValue = "")
+        @ApiImplicitParam(name = "codigoProblema", value = "Codigo do problema. ", required = true, dataType = "string", paramType = "path", defaultValue = "")
     })
     @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Success"),
         @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden"),
         @ApiResponse(code = 404, message = "Not Found"),
         @ApiResponse(code = 500, message = "Failure")})
     public @ResponseBody

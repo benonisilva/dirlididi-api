@@ -41,11 +41,23 @@ public class MockListaProblema implements Repository<Problema>{
     private void gerarProblemas(){
         for(int i=0;i<TAMANHO; i++){
             SumarioDeProblema s = 
-                    new SumarioDeProblema("21/07/17", false, "nome"+i, "codigo"+i, "descricao"+i);
-            Teste t = new Teste("nome"+i, "dscricao"+i, "dica"+i, "codigo"+i, ""+i, ""+i);
+                    new SumarioDeProblema();
+            s.setCodigo("codigo"+i);
+            s.setDataCriacao("21/07/17");
+            s.setResolvido(false);
+            s.setNome("nome"+i);
+            s.setDescricao("descricao"+i);
+            Teste t = new Teste();
+            t.setCodigo("codigo"+i);
+            t.setNome("nome"+i);
+            t.setDescricao("dscricao"+i);
+            t.setDica("dica"+i);
+            t.setEntrada(""+i);
+            t.setSaida(""+i);
             List<Teste> lt = new ArrayList<>();
             lt.add(t);
-            Problema p = new Problema(s);
+            Problema p = new Problema();
+            p.setSumario(s);
             p.setTeste(lt);
             p.setId(i);
             problemasMock.add(p);

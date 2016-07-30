@@ -7,6 +7,7 @@ package recursos.problema;
 
 import bootwildfly.domain.Problema;
 import bootwildfly.domain.Resposta;
+import bootwildfly.domain.SolucaoDeProblema;
 import bootwildfly.domain.SumarioDeProblema;
 import bootwildfly.domain.Teste;
 import com.google.gson.Gson;
@@ -33,20 +34,26 @@ import org.junit.Before;
  * @author benoni
  */
 public class ProblemasRouteTest {
-    private final String URL="http://dirlididi-benonisilva.rhcloud.com";
+    private final String URL="http://localhost:8080";
     private Gson gson = new GsonBuilder().serializeNulls().create();
     
-    private SumarioDeProblema s = new SumarioDeProblema("a", false, "c", "d", "e");
-    private Teste t = new Teste("a", "b", "c", "d", "e", "f");
-    private Problema p = new Problema(s);
+    private SumarioDeProblema s = new SumarioDeProblema();
+    private Teste t = new Teste();
+    private Problema p = new Problema();
     private List<Teste>  lt = new ArrayList<>();
     
     @Before
     public void createObj(){
+        s.setCodigo("a");
+        s.setDataCriacao("22/01/12");
+        s.setNome("b");
+        s.setDescricao("c");
+        s.setResolvido(false);
         lt.add(t);
         p.setDica("dica");
         p.setTeste(lt);
         p.setId(1);
+        p.setSumario(s);
     }
     
     @Test
@@ -61,36 +68,57 @@ public class ProblemasRouteTest {
     
     @Test
     public void edit_problema_test_status_ok() throws Exception {
-        given().
-                params("nome", "nomenovo", "codigo", "codigo5","dataCriacao","30/07/16","resolvido",true).
-                when().
-                put(URL+"/problema/codigo5").then().statusCode(200);
+        String body = gson.toJson(p,Problema.class);
+        
+        given()
+            .contentType("application/json")
+            .body(body)
+            .when().put(URL + "/problema/codigo5").then()
+            .statusCode(200);
+       
     }
     
     @Test
     public void post_problema_test_status_ok() throws Exception {
-        given().
-                params("nome", "nomeadicionado", "codigo", "NULL", "dataCriacao", "30/07/16", "resolvido", false).
-                when().
-                post(URL + "/problema").then().statusCode(200);
+       String body = gson.toJson(p,Problema.class);
+        
+       given()
+                .contentType("application/json")
+                .body(body)
+                .when().post(URL + "/problema").then()
+                .statusCode(200);
+        
+        with().expect().body("sumario.resolvido", equalTo(false)).when().get(URL+"/problema/codigo5");
     }
     
     @Test
-    public void envia_solucao_test_status_ok() throws Exception {
+    public void envia_solucao_test_status_ok_estatistica_89() throws Exception {
+        
         List<Resposta> respostas = new ArrayList<>();
         Resposta r = new Resposta();
         r.setEntrada("1");
         r.setSaida("2");
         respostas.add(r);
         respostas.add(r);
-        given().
-                params("estrategia", "Descricao de como resolveu o problema", "respostas",respostas).
-                when().
-                post(URL + "/problema/codigo5/solucao").then().statusCode(200);
+        SolucaoDeProblema so = new SolucaoDeProblema();
+        so.setEstrategia("descricao");
+        so.setRespostas(respostas);
+        
+        String body = gson.toJson(so,SolucaoDeProblema.class);
+        
+        given()
+        .contentType("application/json")
+        .body(body)
+        .when().post(URL+"/problema/codigo5/solucao").then()
+        .statusCode(200);
+        
+        with().expect().statusCode(200).when().get(URL+"/problema/a");
+        with().expect().body("numeroProblemasSubmetidos",equalTo(30)).when().get(URL+"/estatistica");
     }
     
     @Test
     public void delete_problema_test_status_ok() throws Exception {
         expect().statusCode(200).when().delete(URL + "/problema/codigo5");
+        with().expect().body("numeroProblemasSubmetidos",equalTo(28)).when().get(URL+"/estatistica");
     }
 }

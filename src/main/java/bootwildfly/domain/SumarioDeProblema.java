@@ -66,12 +66,7 @@ public class SumarioDeProblema {
   private String codigo;
   private String descricao;
 
-    public SumarioDeProblema(String dataCriacao, boolean resolvido, String nome, String codigo, String descricao) {
-        this.dataCriacao = dataCriacao;
-        this.resolvido = resolvido;
-        this.nome = nome;
-        this.codigo = codigo;
-        this.descricao = descricao;
+    public SumarioDeProblema() {
     }
     
     @JsonProperty(required = true)

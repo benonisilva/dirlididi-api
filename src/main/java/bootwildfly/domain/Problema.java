@@ -16,8 +16,8 @@ public class Problema {
         return sumario;
     }
 
-    public Problema(SumarioDeProblema sumario) {
-        this.sumario = sumario;
+    public Problema() {
+       
     }
 
     public void setSumario(SumarioDeProblema sumario) {
