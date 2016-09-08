@@ -1,14 +1,24 @@
 package bootwildfly.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
+
 public class Usuario {
  
-  private Integer id;
-  private String nome;
-  private String descricao;
-  private String dica;
-  private String codigo;
-  private String entrada;
-  private String saida;
+    private Integer id;
+    private String email;
+    private String senha;
+    
+    @JsonProperty(required = true)
+    @ApiModelProperty(notes = "senha Usuario", required = true)
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
   private Role role;
 
     public Integer getId() {
@@ -19,61 +29,22 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    @JsonProperty(required = true)
+    @ApiModelProperty(notes = "email Usuario", required = true)
+    public String getEmail() {
+        return email;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
-    public String getDica() {
-        return dica;
-    }
-
-    public void setDica(String dica) {
-        this.dica = dica;
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public String getEntrada() {
-        return entrada;
-    }
-
-    public void setEntrada(String entrada) {
-        this.entrada = entrada;
-    }
-
-    public String getSaida() {
-        return saida;
-    }
-
-    public void setSaida(String saida) {
-        this.saida = saida;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Role getRole() {
-        return role;
+      return role;
     }
 
     public void setRole(Role role) {
         this.role = role;
     }
-
  
 }

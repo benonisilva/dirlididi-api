@@ -36,10 +36,7 @@ public class SumarioDeProblema {
             return false;
         }
         final SumarioDeProblema other = (SumarioDeProblema) obj;
-        if (!Objects.equals(this.codigo, other.codigo)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.codigo, other.codigo);
     }
 
     public void setDataCriacao(String dataCriacao) {
@@ -61,6 +58,13 @@ public class SumarioDeProblema {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public SumarioDeProblema(String dataCriacao, String nome, String codigo, String descricao) {
+        this.dataCriacao = dataCriacao;
+        this.nome = nome;
+        this.codigo = codigo;
+        this.descricao = descricao;
+    }
   private boolean resolvido;
   private String nome;
   private String codigo;
@@ -75,7 +79,7 @@ public class SumarioDeProblema {
         return dataCriacao;
     }
     
-        @JsonProperty(required = true)
+    @JsonProperty(required = true)
     @ApiModelProperty(notes = "Problema resolvido", required = true)
     public boolean isResolvido() {
         return resolvido;

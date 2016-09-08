@@ -9,6 +9,15 @@ public class Problema {
  
   private Integer id;
   private String dica;
+  private boolean isPublicado;
+
+    public boolean isIsPublicado() {
+        return isPublicado;
+    }
+
+    public void setIsPublicado(boolean isPublicado) {
+        this.isPublicado = isPublicado;
+    }
   private List<Teste> teste;
   private SumarioDeProblema sumario;
 
@@ -22,6 +31,11 @@ public class Problema {
 
     public void setSumario(SumarioDeProblema sumario) {
         this.sumario = sumario;
+    }
+
+    @Override
+    public String toString() {
+        return "Problema{" + "id=" + id + ", dica=" + dica + ", isPublicado=" + isPublicado + ", teste=" + teste + ", sumario=" + sumario + '}';
     }
  
     public Integer getId() {

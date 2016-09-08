@@ -79,5 +79,15 @@ public class Teste {
     }
   private TipoDeTeste tipo;
 
+    public Teste(String nome, String descricao, String dica, String codigo, String entrada, String saida, TipoDeTeste tipo) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.dica = dica;
+        this.codigo = codigo;
+        this.entrada = entrada;
+        this.saida = saida;
+        this.tipo = tipo;
+    }
+
  
 }
