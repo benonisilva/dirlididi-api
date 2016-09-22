@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package recursos.problema;
 
 import bootwildfly.ApplicationConstant;
@@ -21,11 +16,13 @@ import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 
 /**
  *
  * @author benoni
  */
+@Ignore
 public class ProblemasRouteTest {
     private static final String URL="http://localhost:8080";
     private static final Gson gson = new GsonBuilder().serializeNulls().create();

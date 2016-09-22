@@ -48,16 +48,15 @@ public class HomeController {
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             userContextId = ((SpringSecurityUser) auth.getPrincipal()).getId();
-        } catch (UsernameNotFoundException e) {
+        } catch (UsernameNotFoundException | ClassCastException e) {
 
         }
         
         int totalProblemas = estatisticaService.totalProblemas();
         int totalSolucionados = estatisticaService.totalSolucionados();
         int totalSolucionadosByUser = estatisticaService.totalByUsuarioId(userContextId);
-        Estatistica estatistica = new Estatistica(totalProblemas, totalSolucionados, totalSolucionadosByUser);
+        Estatistica estatistica = new Estatistica(totalSolucionados,totalProblemas, totalSolucionadosByUser);
         
-        //System.out.println(auth.getName());
         return estatistica;
     }
     
