@@ -1,0 +1,29 @@
+<template>
+  <section class="au-animate">
+    <h2>${heading}</h2>
+    <table class="table table-condensed">
+        <thead>
+          <tr>
+            <th>Problema</th>
+            <th>Descrição</th>
+            <th>Codigo</th>
+            <th>Data</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr repeat.for="problema of problemas">
+          	<td>${problema.nome}</td>
+          	<td>${problema.descricao}</td>
+          	<td>${problema.codigo}</td>
+          	<td>${problema.dataCriacao}</td>
+          	<td>
+          		<a route-href="route: problema-detalhe;params.bind: {cod:problema.codigo}">
+          	       Detalhes
+          	    </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </section>
+</template>
